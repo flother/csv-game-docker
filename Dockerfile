@@ -32,11 +32,11 @@ RUN apt-get update && \
        $JAVA_DEPS \
        $PYTHON2_DEPS \
        $PYTHON3_DEPS \
+       $OCAML_DEPS \
        $RUBY_DEPS \
        $LUA_DEPS \
        $GOLANG_DEPS \
        $HASKELL_DEPS \
-       $OCAML_DEPS \
        $JULIA_DEPS \
        $PHP_DEPS \
        -qqy \
@@ -46,7 +46,9 @@ RUN apt-get update && \
 RUN pip install pandas
 RUN luarocks install lpeg
 RUN cpan install perl Text::CSV_XS
-RUN opam init && opam install -y csv
+# OCaml seems to fail. If you're bored and come across this, help me fix it,
+# pls. :)
+#RUN opam init && opam install -y csv
 
 RUN mkdir /rust
 RUN pwd
