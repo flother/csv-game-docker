@@ -45,7 +45,8 @@ RUN apt-get update && \
 
 RUN pip install pandas
 RUN luarocks install lpeg
-RUN cpan install perl Text::CSV_XS
+# Perl seems to install Text::CSV_XS just fine but still gives error code 8.
+RUN cpan install perl Text::CSV_XS ; exit 0
 # OCaml seems to fail. If you're bored and come across this, help me fix it,
 # pls. :)
 #RUN opam init && opam install -y csv
