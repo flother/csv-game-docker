@@ -8,7 +8,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV C_DEPS="libcsv-dev"
 ENV CPP_DEPS="libboost-dev"
 ENV R_DEPS="r-base r-base-dev libopenblas-base"
-ENV JAVA_DEPS="openjdk-8-jdk openjdk-8-jre maven"
 ENV PYTHON2_DEPS="python python-dev python-pip"
 ENV PYTHON3_DEPS="python3 python3-dev python3-pip"
 ENV RUBY_DEPS="ruby"
@@ -43,14 +42,38 @@ RUN apt-get update && \
        --no-install-recommends \ 
        && rm -rf /var/lib/apt/lists/*
 
+
+# Oracle Java
+RUN echo "dot_style = mega" > "/root/.wgetrc"
+RUN echo "quiet = on" >> "/root/.wgetrc"
+
+RUN apt-get -q install --no-install-recommends -y software-properties-common
+RUN add-apt-repository -y ppa:webupd8team/java
+RUN apt-get -q update
+
+# Auto-accept the Oracle JDK license
+RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true
+| sudo /usr/bin/debconf-set-selections
+RUN apt-get -q install --no-install-recommends -y oracle-java8-installer
+
+# Apps that require Java
+RUN apt-get -q update && apt-get -q install --no-install-recommends -y \
+    ant \
+    maven
+
+# Python
 RUN pip install pandas
+# Lua
 RUN luarocks install lpeg
+# Perl
 # Perl seems to install Text::CSV_XS just fine but still gives error code 8.
 RUN cpan install perl Text::CSV_XS ; exit 0
+# OCaml
 # OCaml seems to fail. If you're bored and come across this, help me fix it,
 # pls. :)
 #RUN opam init && opam install -y csv
 
+#Rust
 RUN mkdir /rust
 RUN pwd
 WORKDIR /rust
