@@ -22,6 +22,7 @@ ENV PHP_DEPS="php7.0"
 RUN apt-get update && \
     apt-get install \
        ca-certificates \
+       gnupg \
        curl \
        gcc \
        libc6-dev \
