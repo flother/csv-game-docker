@@ -22,9 +22,10 @@ ENV PHP_DEPS="php7.0"
 RUN apt-get update && \
     apt-get install \
        ca-certificates \
-       gnupg \
        curl \
+       dirmngr \
        gcc \
+       gnupg \
        libc6-dev \
        $C_DEPS \
        $CPP_DEPS \
@@ -40,14 +41,10 @@ RUN apt-get update && \
        $JULIA_DEPS \
        $PHP_DEPS \
        -qqy \
-       --no-install-recommends \ 
-       && rm -rf /var/lib/apt/lists/*
+       --no-install-recommends
 
 
 # Oracle Java
-RUN echo "dot_style = mega" > "/root/.wgetrc"
-RUN echo "quiet = on" >> "/root/.wgetrc"
-
 #RUN apt-get -q install --no-install-recommends -y software-properties-common
 #RUN add-apt-repository -y ppa:webupd8team/java
 RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
@@ -55,7 +52,7 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
     echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
       tee -a /etc/apt/sources.list.d/webupd8team-java.list; \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
-RUN apt-get -q update
+RUN apt-get -q update && rm -rf /var/lib/apt/lists/*
 
 # Auto-accept the Oracle JDK license
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true
