@@ -52,17 +52,19 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
     echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
       tee -a /etc/apt/sources.list.d/webupd8team-java.list; \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
-RUN apt-get -q update && rm -rf /var/lib/apt/lists/*
+RUN apt-get -q update 
 
 # Auto-accept the Oracle JDK license
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true
-| sudo /usr/bin/debconf-set-selections
+RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | \
+    /usr/bin/debconf-set-selections
 RUN apt-get -q install --no-install-recommends -y oracle-java8-installer
 
 # Apps that require Java
-RUN apt-get -q update && apt-get -q install --no-install-recommends -y \
+RUN apt-get -q install --no-install-recommends -y \
     ant \
     maven
+    
+RUN rm -rf /var/lib/apt/lists/*
 
 # Python
 RUN pip install pandas
