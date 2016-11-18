@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:testing
 
 # File Author / Maintainer
 MAINTAINER Ewan Higgs <ewan_higgs@yahoo.co.uk>
