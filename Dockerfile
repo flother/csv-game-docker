@@ -47,8 +47,13 @@ RUN apt-get update && \
 RUN echo "dot_style = mega" > "/root/.wgetrc"
 RUN echo "quiet = on" >> "/root/.wgetrc"
 
-RUN apt-get -q install --no-install-recommends -y software-properties-common
-RUN add-apt-repository -y ppa:webupd8team/java
+#RUN apt-get -q install --no-install-recommends -y software-properties-common
+#RUN add-apt-repository -y ppa:webupd8team/java
+RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
+      tee /etc/apt/sources.list.d/webupd8team-java.list; \
+    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
+      tee -a /etc/apt/sources.list.d/webupd8team-java.list; \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
 RUN apt-get -q update
 
 # Auto-accept the Oracle JDK license
