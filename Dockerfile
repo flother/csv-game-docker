@@ -17,7 +17,7 @@ ENV GOLANG_DEPS="golang"
 ENV HASKELL_DEPS="ghc libghc-text-dev libghc-cassava-dev"
 ENV OCAML_DEPS="ocaml opam"
 ENV JULIA_DEPS="julia"
-ENV PHP_DEPS="php5"
+ENV PHP_DEPS="php7.0"
 
 # General tools
 RUN apt-get update && \
