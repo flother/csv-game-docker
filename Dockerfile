@@ -5,6 +5,7 @@ MAINTAINER Ewan Higgs <ewan_higgs@yahoo.co.uk>
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+ENV AWK_DEPS="gawk mawk"
 ENV C_DEPS="libcsv-dev"
 ENV CPP_DEPS="libboost-dev"
 ENV R_DEPS="r-base r-base-dev libopenblas-base"
@@ -27,6 +28,7 @@ RUN apt-get update && \
        gcc \
        gnupg \
        libc6-dev \
+       $AWK_DEPS \
        $C_DEPS \
        $CPP_DEPS \
        $R_DEPS \
