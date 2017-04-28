@@ -104,5 +104,20 @@ RUN curl -s https://raw.githubusercontent.com/technomancy/leiningen/2.6.1/bin/le
             chmod 0755 /usr/local/bin/lein && \
             /usr/local/bin/lein
 
+# Nim
+WORKDIR /nim
+ENV NIM_VERSION=0.16.0
+ENV NIM_ARCHIVE=nim-$NIM_VERSION.tar.xz
+ENV NIM_DOWNLOAD_URL=https://nim-lang.org/download/$NIM_ARCHIVE
+RUN curl -fsOS $NIM_DOWNLOAD_URL \
+    && curl -s $NIM_DOWNLOAD_URL.sha256 | sha256sum -c - \
+    && tar -C /nim -xf $NIM_ARCHIVE \
+    && rm $NIM_ARCHIVE \
+    && cd nim-$NIM_VERSION \
+    && sh build.sh \
+    && bin/nim c koch \
+    && ./koch tools
+ENV PATH="${PATH}:/nim/nim-${NIM_VERSION}/bin"
+
 WORKDIR /
 
